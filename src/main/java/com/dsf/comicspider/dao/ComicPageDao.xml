@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dsf.comicspider.dao.ComicPageDao">
+    <select id="findAll" resultType="ComicPage">
+        select * from comic_page;
+    </select>
+    <insert id="save" parameterType="ComicPage">
+        insert into comic_page(`pid`, `number`, `url`)values
+        <foreach collection="list" item="comicPage" separator=",">
+            (#{comicPage.pid}, #{comicPage.number}, #{comicPage.url})
+        </foreach>
+
+    </insert>
+</mapper>

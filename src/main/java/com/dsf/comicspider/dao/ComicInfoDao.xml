@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dsf.comicspider.dao.ComicInfoDao">
+    <select id="findByName" parameterType="String" resultType="ComicInfo">
+        select * from comic_info where name=#{name}
+    </select>
+    <select id="findAll"  resultType="ComicInfo">
+        select * from comic_info;
+    </select>
+
+    <insert id="save" parameterType="ComicInfo">
+        insert into comic_info(`name`, `introduction`, `page`, `status`, `cover`, `url`)
+        values
+        <foreach collection="list" item="comic" separator=",">
+            (#{comic.name}, #{comic.introduction}, #{comic.page}, #{comic.status}, #{comic.cover}, #{comic.url})
+        </foreach>
+
+    </insert>
+</mapper>

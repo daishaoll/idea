@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://66.42.37.128:3306/comic?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=UTC
+    password: 86099879
+    username: daishaofeng
+mybatis:
+  type-aliases-package: com.dsf.comicspider.pojo
+  configuration:
+    map-underscore-to-camel-case: true
