@@ -3,6 +3,13 @@ package com.dsf.comicspider.pojo;/**
  * @create 2021-04-11 18:26
  */
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+
+import java.util.Date;
+
 /**
  *@ClaseeNme:ComicPage
  *@Description：
@@ -10,62 +17,35 @@ package com.dsf.comicspider.pojo;/**
  *@Date：2021/4/11-18:26
  *@Version： 1.0
  */
+@Getter
+@Setter
+@ToString
+@AllArgsConstructor
 public class ComicPage {
 
     private Integer id;
     private Integer pid;
     private String number;
     private String url;
+    private Integer status;
+    private Date updateTime;
 
     public ComicPage() {
     }
 
-    public ComicPage(Integer id, Integer pid, String number, String url) {
-        this.id = id;
-        this.pid = pid;
-        this.number = number;
-        this.url = url;
-    }
 
-    public Integer getId() {
-        return id;
-    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+        ComicPage comicPage = (ComicPage) o;
 
-    public Integer getPid() {
-        return pid;
-    }
-
-    public void setPid(Integer pid) {
-        this.pid = pid;
-    }
-
-    public String getNumber() {
-        return number;
-    }
-
-    public void setNumber(String number) {
-        this.number = number;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
+        return url != null ? url.equals(comicPage.url) : comicPage.url == null;
     }
 
     @Override
-    public String toString() {
-        return "ComicPage{" +
-                "id=" + id +
-                ", pid=" + pid +
-                ", number=" + number +
-                ", url='" + url + '\'' +
-                '}';
+    public int hashCode() {
+        return url != null ? url.hashCode() : 0;
     }
 }

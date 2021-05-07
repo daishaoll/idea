@@ -7,10 +7,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         select * from comic_page;
     </select>
     <insert id="save" parameterType="ComicPage">
-        insert into comic_page(`pid`, `number`, `url`)values
+        insert into comic_page(`pid`, `number`, `url`, `update_time`)values
         <foreach collection="list" item="comicPage" separator=",">
-            (#{comicPage.pid}, #{comicPage.number}, #{comicPage.url})
+            (#{comicPage.pid}, #{comicPage.number}, #{comicPage.url}, #{comicPage.updateTime})
         </foreach>
 
     </insert>
+    <select id="findByNumber" parameterType="String" resultType="ComicPage">
+        select * from comic_page where number = #{Number}
+    </select>
+
+    <update id="updateByStatus">
+        update comic_page set status=#{status} where id=#{id}
+    </update>
 </mapper>

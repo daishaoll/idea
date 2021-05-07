@@ -12,10 +12,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <insert id="save" parameterType="ComicInfo">
-        insert into comic_info(`name`, `introduction`, `page`, `status`, `cover`, `url`)
+        insert into comic_info(`name`, `introduction`, `page`, `cover`, `url`, `update_time`)
         values
         <foreach collection="list" item="comic" separator=",">
-            (#{comic.name}, #{comic.introduction}, #{comic.page}, #{comic.status}, #{comic.cover}, #{comic.url})
+            (#{comic.name}, #{comic.introduction}, #{comic.page}, #{comic.cover}, #{comic.url}, #{comic.updateTime})
         </foreach>
 
     </insert>

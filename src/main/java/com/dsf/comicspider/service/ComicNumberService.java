@@ -19,8 +19,12 @@ public interface ComicNumberService {
      * @author 戴少峰
      * @date 2021/4/16
      */
+
+    List<ComicNumber> findAll();
+
     void save(List<ComicNumber> comicNumberList);
 
-    public void hell();
+    void updateById(ComicNumber comicNumber);
+
 
 }

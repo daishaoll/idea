@@ -22,4 +22,8 @@ public interface ComicPageService{
     void save(List<ComicPage> comicPageList);
 
     List<ComicPage> findAll();
+
+    List<ComicPage> findByNumber(String number);
+
+    void updateByStatus(Integer id, Integer status);
 }

@@ -1,18 +1,21 @@
 package com.dsf.comicspider.spider;
 
+import com.dsf.comicspider.pojo.ComicInfo;
 import com.dsf.comicspider.pojo.ComicNumber;
+import com.dsf.comicspider.pojo.ComicPage;
+import com.dsf.comicspider.service.ComicInfoService;
 import com.dsf.comicspider.service.ComicNumberService;
-import net.sf.cglib.proxy.Enhancer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.dsf.comicspider.service.ComicPageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import us.codecraft.webmagic.Request;
 import us.codecraft.webmagic.Spider;
 import us.codecraft.webmagic.processor.PageProcessor;
 import us.codecraft.webmagic.scheduler.BloomFilterDuplicateRemover;
 import us.codecraft.webmagic.scheduler.QueueScheduler;
 
+import javax.sound.midi.Soundbank;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
@@ -26,29 +29,29 @@ import java.util.Queue;
 @Component
 public class SpiderTask {
     @Autowired
-    private Comic comic;
+    private ComicListProcessor comicListProcessor;
+    @Autowired
+    private ComicPageListProcessor comicPageListProcessor;
+    @Autowired
+    private ComicNumListProcessor comicNumListProcessor;
+    @Autowired
+    private DownloadImgProcessor downloadImgProcessor;
+    @Autowired
+    private ComicInfoService comicInfoService;
+    @Autowired
+    private ComicPageService comicPageService;
     @Autowired
     private ComicNumberService comicNumberService;
-    @Scheduled(initialDelay = 1000,fixedDelay = 500 * 1000)
-    public void startSpider() {
-//        Enhancer enhancer = new Enhancer();
-//        enhancer.setSuperclass(Spider.class);
-//        enhancer.setCallback(new SpiderInterceptor());
-//        Spider spider = (Spider)enhancer.create(new Class[]{PageProcessor.class}, new Object[]{comic});
-        Spider spider = new Spider(comic);
-        Logger logger = LoggerFactory.getLogger(getClass());
-        logger.error("hello");
-        spider.addUrl("https://manhua.fzdm.com/")
-                .setScheduler(new QueueScheduler().setDuplicateRemover(new BloomFilterDuplicateRemover(1000000)))
-                .thread(10)
-                .run();
-        Queue<ComicNumber> comicNumberQueue = Comic.getComicNumberQueue();
-        List<ComicNumber> comicNumberList = new ArrayList<>(comicNumberQueue);
-        comicNumberService.save(comicNumberList);
-        long begin = System.currentTimeMillis();
-        System.out.println("完毕");
-        System.out.println(System.currentTimeMillis() - begin);
 
-
+    @Scheduled(initialDelay = 10, fixedDelay = 100000)
+    public void spiderTask() throws InterruptedException {
+       comicListProcessor.comicListSpider();
+        System.out.println("开始page");
+       comicPageListProcessor.comicPageListSpider();
+        System.out.println("开始num");
+       comicNumListProcessor.comicNumListSpider();
+        System.out.println("开始img");
+       downloadImgProcessor.downloadImg();
     }
+
 }

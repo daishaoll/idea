@@ -10,7 +10,7 @@ import java.util.List;
  * @version 1.0
  * @date 2021/4/16-15:37
  */
-public interface ComicNumberDao {
+public interface ComicNumberDao extends BaseDao<ComicNumber> {
     /**
      * 保存漫画页码
      * @param comicNumber 漫画页码实体类
@@ -18,5 +18,7 @@ public interface ComicNumberDao {
      * @author 戴少峰
      * @date 2021/4/16
      */
-    void save(List<ComicNumber> comicNumberList);
+
+
+    void updateById(ComicNumber comicNumber);
 }

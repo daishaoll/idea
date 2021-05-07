@@ -8,3 +8,4 @@ mybatis:
   type-aliases-package: com.dsf.comicspider.pojo
   configuration:
     map-underscore-to-camel-case: true
+

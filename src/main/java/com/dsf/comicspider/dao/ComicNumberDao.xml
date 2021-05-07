@@ -3,11 +3,18 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.dsf.comicspider.dao.ComicNumberDao">
+    <select id="findAll" resultType="ComicNumber">
+        select * from comic_number;
+    </select>
     <insert id="save" parameterType="ComicNumber">
-        insert into comic_number(`pid`, `number`, `url`)values
+        insert into comic_number(`pid`, `number`, `url`, `local_url`)values
         <foreach collection="list" item="comicNumber" separator=",">
-            (#{comicNumber.pid}, #{comicNumber.number}, #{comicNumber.url})
+            (#{comicNumber.pid}, #{comicNumber.number}, #{comicNumber.url}, #{comicNumber.localUrl})
         </foreach>
 
     </insert>
+
+    <update id="updateById" parameterType="ComicNumber">
+        update comic_number set local_url = #{localUrl} where id = #{id}
+    </update>
 </mapper>

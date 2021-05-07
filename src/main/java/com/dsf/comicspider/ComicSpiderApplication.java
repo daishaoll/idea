@@ -12,6 +12,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class ComicSpiderApplication {
     public static void main(String[] args) {
         SpringApplication.run(ComicSpiderApplication.class, args);
+
+
     }
 
 

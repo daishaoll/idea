@@ -14,15 +14,24 @@ import java.util.List;
  * @date 2021/4/16-15:51
  */
 @Service
-public class ComicNumberImp implements ComicNumberService {
+public class ComicNumberImpl implements ComicNumberService {
+
     @Autowired
     private ComicNumberDao comicNumberDao;
+
+    @Override
+    public List<ComicNumber> findAll() {
+        return comicNumberDao.findAll();
+    }
+
     @Override
     public void save(List<ComicNumber> comicNumberList) {
         comicNumberDao.save(comicNumberList);
     }
+
     @Override
-    public void hell() {
-        System.out.println("你好");
+    public void updateById(ComicNumber comicNumber) {
+        comicNumberDao.updateById(comicNumber);
     }
+
 }

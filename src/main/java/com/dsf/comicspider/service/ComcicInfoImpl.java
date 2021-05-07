@@ -4,6 +4,8 @@ import com.dsf.comicspider.dao.ComicInfoDao;
 import com.dsf.comicspider.pojo.ComicInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import com.dsf.comicspider.dao.ComicInfoDao;
@@ -12,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  *@ClaseeNme:ComcicInfoImp
@@ -22,9 +25,12 @@ import java.util.List;
  *@Version： 1.0
  */
 @Service
-public class ComcicInfoImp implements ComicInfoService {
+public class ComcicInfoImpl implements ComicInfoService {
     @Autowired
     private ComicInfoDao comicInfoDao;
+    private volatile List<ComicInfo> comicInfoList;
+
+
     @Override
     public List<ComicInfo> findByName(String name) {
         return comicInfoDao.findByName(name);
@@ -32,11 +38,29 @@ public class ComcicInfoImp implements ComicInfoService {
 
     @Override
     public List<ComicInfo> findAll() {
-        return comicInfoDao.findAll();
+        List<ComicInfo> comicInfoList =  comicInfoDao.findAll();
+        return comicInfoList;
     }
 
     @Override
     public void save(List<ComicInfo> comicInfoList) {
-        comicInfoDao.save(comicInfoList);
+        if (this.comicInfoList == null) {
+            synchronized (this) {
+                if (this.comicInfoList == null) {
+                    this.comicInfoList = this.findAll();
+                }
+            }
+        }
+        List<ComicInfo> saveList = new ArrayList<>();
+        for (ComicInfo value : comicInfoList) {
+            if (this.comicInfoList.stream().noneMatch((comicInfo) -> comicInfo.equals(value))) {
+                saveList.add(value);
+            }
+        }
+        if (saveList.size() > 0) {
+            comicInfoDao.save(saveList);
+        }
+
+
     }
 }
